@@ -1,7 +1,14 @@
 from functools import partial
 from itertools import islice
+from enum import Enum
 
-'''ITERATOR FUNCTIONS'''
+class Wall(Enum):
+    RIGHT = "RIGHT",
+    LEFT = "LEFT",
+    UPPER = "UPPER",
+    BOTTEM = "DOWN",
+    NONE = "NONE"
+
 #returns a chunk of the iterable
 def take(n, iterable):
     return list(islice(iterable, n))
@@ -9,7 +16,6 @@ def take(n, iterable):
 #returns a chucked iterator over the iterable
 def chunk(iterable, n):
     return iter(partial(take, n, iter(iterable)), [])
-'''END OF ITERATOR FUNCTIONS'''
 
 '''Stringify a nested list.
    after each row yield an '\n', but only if it's not the last row
@@ -44,11 +50,11 @@ so if the field is '<', and the x = 0...we return the the wall is "LEFT".
 MAX_X and MAX_Y are the maximum x and y values in the matrix.
 """
 def type_wall(x, y, field, MAX_X, MAX_Y):
-    if field == '<' and x == 0: return "LEFT"
-    elif field == '^' and y == 0: return "UPPER"
-    elif field == '>' and x == MAX_X: return "RIGHT"
-    elif field == 'v' and y == MAX_Y: return "BOTTEM"
-    else: return "NONE"
+    if field == '<' and x == 0: return Wall.LEFT
+    elif field == '^' and y == 0: return wall.UPPER
+    elif field == '>' and x == MAX_X: return Wall.RIGHT
+    elif field == 'v' and y == MAX_Y: return Wall.BOTTEM
+    else: return Wall.NONE
 
 def turn_field(field):
     if field == '^': return '>'
@@ -65,10 +71,10 @@ def turn_field(field):
 def nxt(type_wall, current_x, current_y, field):
     return \
     {
-        '^': lambda wall: (current_y, current_x) if wall == 'UPPER' else (current_y - 1, current_x),
-        '>': lambda wall: (current_y, current_x) if wall == 'RIGHT' else (current_y, current_x + 1),
-        'v': lambda wall: (current_y, current_x) if wall == 'BOTTEM' else (current_y + 1, current_x),
-        '<': lambda wall: (current_y, current_x) if wall == 'LEFT' else (current_y, current_x - 1),
+        '^': lambda wall: (current_y, current_x) if wall == Wall.UPPER else (current_y - 1, current_x),
+        '>': lambda wall: (current_y, current_x) if wall == Wall.RIGHT else (current_y, current_x + 1),
+        'v': lambda wall: (current_y, current_x) if wall == Wall.BOTTEM else (current_y + 1, current_x),
+        '<': lambda wall: (current_y, current_x) if wall == Wall.LEFT else (current_y, current_x - 1),
     }[field](type_wall)
 
 def stap(matrix, y_x):

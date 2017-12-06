@@ -41,11 +41,6 @@ def new_rows(old_generation):
 def volgende_generatie(old_generation):
     return list(new_rows(old_generation))
 
-    results = []
-
-    for y, row in enumerate(old_generation):
-        results.append([field_is_alive(old_generation, Poi)])
-
 if __name__ == '__main__':
     generatie = [[True] + [False] * 7 for _ in range(6)]
     for i in generatie:
@@ -54,6 +49,10 @@ if __name__ == '__main__':
 
     print()
     nxt = volgende_generatie(generatie)
+    toonGeneratie(nxt)
+
+    print()
+    nxt = volgende_generatie(nxt)
     toonGeneratie(nxt)
 
     print()
