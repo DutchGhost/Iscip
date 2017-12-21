@@ -46,7 +46,7 @@ def afstand(code1, code2, luchthavens):
     down = (sin(b1) * sin(b2)) + (cos(b1) * cos(b2) * cos(l1 - l2))
 
     return round(R * atan((upper/down)), 7)
-    
+
 #walk over the keys in the dict.
 #calculate the distance from a to c,
 #if its less than reikwijdte, calculate the distance from c to b
@@ -72,7 +72,6 @@ def tussenlanding(code1, code2, luchthavens, reikwijdte=4000):
 
 if __name__ == '__main__':
     dic = leesLuchthavens("luchthavens.txt")
-    d = dict(dic)
     print(afstand('P60', 'MSN', dic))
     print(afstand('ADK', 'DCA', dic))
     print(tussenlanding('ADK', 'DCA', dic, 4000))
