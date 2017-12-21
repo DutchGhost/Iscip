@@ -1,21 +1,3 @@
-'''
-    -leesLuchthavens(file)
-        dict {luchthaven : info}
-    -afstand(code1, code2, luchthaves)
-        just translate the whole formula
-    tussenlanding(code1, code2, luchthavens, reikwijdte=4000)
-        has to find the most optimal flight route between code1 and code2
-
-        calculate first calculate the distance between the A and B.
-
-        than loop over the dict, calculate if the distance between code1 and tmp plus
-        the distance between tmp and code 1 is smaller than what we've found so far,
-
-        if so:
-            current stop is tmp
-        else:
-            continue
-'''
 from math import radians, cos, sin, sqrt, atan, pi
 import csv
 
@@ -23,18 +5,6 @@ import csv
 from collections import namedtuple
 Airport = namedtuple('Airport', ['distance', 'id'])
 
-'''
-def filereader(file):
-    with open(file, 'r') as f:
-        next(f)
-
-        for row in f.readlines():
-            indexed = [item.strip().replace("[", "").replace("]", "") for item in row.split("\t")]
-            indexed[1] = float(indexed[1])
-            indexed[2] = float(indexed[2])
-
-            yield (indexed[0], indexed[1:])
-'''
 def filereader(file):
     with open(file, 'r') as f:
         next(f)
@@ -76,6 +46,7 @@ def afstand(code1, code2, luchthavens):
     down = (sin(b1) * sin(b2)) + (cos(b1) * cos(b2) * cos(l1 - l2))
 
     return round(R * atan((upper/down)), 7)
+    
 #walk over the keys in the dict.
 #calculate the distance from a to c,
 #if its less than reikwijdte, calculate the distance from c to b

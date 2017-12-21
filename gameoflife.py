@@ -1,3 +1,9 @@
+"""
+    naam: Kasper van den Berg
+    studentnummer: s1101481
+    opdracht: Game of Life
+"""
+
 from collections import namedtuple
 Point = namedtuple("Point", ["x", "y"])
 
