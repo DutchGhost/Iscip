@@ -1,10 +1,6 @@
-extern crate byte_num;
-
-use byte_num::from_ascii::FromAscii;
-
 use std::{
     error::Error,
-    io::{self, Read, Write},
+    io::{self, BufRead, Write},
 };
 
 const QUESTIONS: &[&str] = &[
@@ -21,31 +17,30 @@ const QUESTIONS: &[&str] = &[
 const VALUES: &[f32] = &[0.01, 0.02, 0.05, 0.10, 0.20, 0.50, 1.00, 2.00];
 
 fn main() -> Result<(), Box<dyn Error + 'static>> {
-    let mut stdin = io::stdin();
-    let mut stdout = io::stdout();
-
-    let mut buffer = vec![0; 64];
-
     let mut ncoins = 0;
     let mut total_value: f32 = 0.0;
 
-    for (question, value) in QUESTIONS.iter().zip(VALUES.iter()) {
-        let _ = stdout.write(question.as_bytes())?;
+    {
+        let stdin = io::stdin();
+        let stdout = io::stdout();
 
-        let amt = stdin.read(&mut buffer)?;
+        let mut stdoutlock = stdout.lock();
+        let mut stdinlock = stdin.lock();
 
-        #[cfg(target_os = "windows")]
-        let n = usize::atoi(&buffer[..amt - 2])?;
+        let mut buffer = String::with_capacity(10);
 
-        #[cfg(target_os = "linux")]
-        let n = usize::atoi(&buffer[..amt - 1])?;
+        for (question, value) in QUESTIONS.iter().zip(VALUES.iter()) {
+            write!(stdoutlock, "{}", question);
 
-        ncoins += n;
-        total_value += n as f32 * value;
-    }
+            let _ = stdinlock.read_line(&mut buffer)?;
 
-    drop(stdout);
-    drop(stdin);
+            let n: usize = buffer.trim().parse()?;
+            ncoins += n;
+            total_value += n as f32 * value;
+
+            buffer.clear();
+        }
+    } // All stdin, stdout, and locks are dropped here
 
     println!("You entered a total of {} coins", ncoins);
     println!("You entered a total value of {:2}", total_value);
