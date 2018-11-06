@@ -1,9 +1,4 @@
-"""
-    naam: Kasper van den Berg
-    studentnummer: s1101481
-    opdracht: formule-1
-"""
-
+from contextlib import suppress
 TIME_LIMIT = 120 * 60
 DISTANCE_LIMIT = 305
 
@@ -26,13 +21,11 @@ def print_antwoord(land, rondes, afstand):
 if __name__ == '__main__':
     land = input("Voer het land in waar de race gereden wordt:\n")
     if land != "Monaco":
-        try:
+        with suppress(ValueError):
             afstand = float(input("Voer de afstand van 1 rondje in (in kilometer): \n"))
             gem_tijd = to_sec(float(input("Voer de gemiddelde tijd van 1 rondje in In minuten): \n")))
-        except ValueError:
-            exit("voer een valide getal in.")
-        rondes = rounds(afstand, gem_tijd)
+            rondes = rounds(afstand, gem_tijd)
 
-        print_antwoord(land, rondes, afstand * rondes)
+            print_antwoord(land, rondes, afstand * rondes)
     else:
         print_antwoord("Monaco", 78, 260.52)

@@ -75,7 +75,7 @@ def stap(matrix, y_x):
         for (current_x, field) in enumerate(row):
             if (current_x, current_y) == (x, y):
                 wall = type_wall(current_x, current_y, field, MAX_X, MAX_Y)            
-                matrix[current_y][current_x] = turn_field(field)
+                matrix[current_y][current_x] = turn_field(field) 
                 return nxt(wall, current_x, current_y, field)
 
 """first yield current.

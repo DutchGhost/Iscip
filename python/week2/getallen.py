@@ -1,15 +1,4 @@
-"""
-    naam: Kasper van den Berg
-    studentnummer: s1101481
-    opdracht: Interessante getallen
-"""
-
-"""Infinite counter"""
-def count(start=0, step=1):
-    n = start
-    while True:
-        yield n
-        n += step
+from itertools import count
 
 """for each n in the iterable,
    this function yields a number, where the number % n equals 0,
