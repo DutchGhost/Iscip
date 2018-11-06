@@ -1,0 +1,8 @@
+[package]
+name = "euro"
+version = "0.1.0"
+authors = ["Dodo <kasper199914@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+byte-num = {git = "https://github.com/DutchGhost/byte-num"}
